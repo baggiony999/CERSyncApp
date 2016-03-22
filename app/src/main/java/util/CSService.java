@@ -65,9 +65,13 @@ public class CSService {
     private static String replaceHiroScript() throws IOException {
        // String bakFileStr = hiroBackupPathStr + hiroScriptFileStr.substring(hiroScriptFileStr.lastIndexOf("/") + 1) + "-" + U.getCurDateStr();
         String bakFileStr = hiroBackupPathStr + hiroScriptFileStr.substring(hiroScriptFileStr.lastIndexOf("/") + 1) + ".bak";
-        U.d("backup " + hiroScriptFileStr + " to " + bakFileStr);
-        SUHelper.sudoForResult("mkdir -p " + hiroBackupPathStr);
-        SUHelper.sudoForResult("cp " + hiroScriptFileStr + " " + bakFileStr);
+
+        File f= new File(bakFileStr);
+        if(f.exists()) {
+            U.d("backup " + hiroScriptFileStr + " to " + bakFileStr);
+            SUHelper.sudoForResult("mkdir -p " + hiroBackupPathStr);
+            SUHelper.sudoForResult("cp " + hiroScriptFileStr + " " + bakFileStr);
+        }
         U.d("replace " + hiroScriptFileStr + " with " + hiroDownloadedFileStr);
         SUHelper.sudoForResult("cp " + hiroDownloadedFileStr + " " + hiroScriptFileStr);
         return bakFileStr;
